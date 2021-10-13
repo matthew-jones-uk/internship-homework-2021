@@ -1,6 +1,6 @@
 class WordSearch:
-    def __init__(self, grid) -> None:
+    def __init__(self, grid: str) -> None:
         self.grid = grid
 
-    def is_present(self, word) -> bool:
+    def is_present(self, word: str) -> bool:
         ...
