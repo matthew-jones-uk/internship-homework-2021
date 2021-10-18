@@ -2,7 +2,7 @@
 
 ## Usage
 
-This is packaged with [Poetry](https://github.com/python-poetry/poetry), and so all dependencies can be installed with `poetry install`. No `requirements.txt` is given as there are no dependencies for normal usage, only pytest and black for development. The code is all formatted using [Black](https://github.com/psf/black). The main search can be used with a simple `from pexhomework import WordSearch`.
+This is packaged with [Poetry](https://github.com/python-poetry/poetry), and so all dependencies can be installed with `poetry install`. No `requirements.txt` is given as there are no dependencies for normal usage, only pytest and black for development. The code is all formatted using [Black](https://github.com/psf/black). The main `WordSearch` class can be used with a simple `from pexhomework import WordSearch`.
 
 ## The Problem
 
@@ -76,4 +76,4 @@ Instead of running `find()` multiple times after an invalid match has been made 
 
 ## Final Thoughts
 
-I'm not convinced that this implementation is the fastest, but I feel that for it to be further optimised it would depend if there was analysis on the data so that it is known, on average, how often a word from the words to be searched exists in the grid.
+I'm not convinced that this implementation is the fastest, but I feel that for it to be easily further optimised it would depend if there was analysis on the data so that it is known, on average, how often a word from the words to be searched exists in the grid.
