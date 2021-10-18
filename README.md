@@ -76,6 +76,31 @@ Instead of running `find()` multiple times after an invalid match has been made 
 
 ## Testing
 
+Testing this is not as easy as immediately obvious. You can trivially test using precrafted grids (as done with `test_search_4x4()`, `test_search_8x8()`, and `test_search_10x10()`) but this is not necessarily reflective of all possible situations.
+
+Further, it is not practical to test with larger precrafted grids as they cannot easily be done by hand and so will require an implementation to create them - so why not simply test with the implemenation?
+
+An autogenerating grid test implementation has a few problems that aren't immediately obvious:
+
+- How do we know what are words?
+
+    We can use a built-in dictionary such as the example `/usr/share/dict/words` or we can download a larger dictionary if we want to test more words. We do run into other problems with such dictionaries, namely compound words.
+
+- Compound words
+
+    These need to be a consideration in an implementation that autogenerates the grid and the words to search from a dictionary due to words that may exist inside another word. For example, say we're autogenerating a (small) grid and randomly pick the word "notebook" to include. We will then take a note that we've added this word into the grid and then also add it into the words to search for. However, if we're using words from a dictionary to check for false positives, i.e. words that return that they exist in the grid when they don't, then the words "note" and "book" may appear, both words that exist within the word "notebook" and would therefore return true, but we may not have necessarily taken note of this.
+
+- Accidental words being created
+
+    Say our autogenerating implementation simply fills all empty spaces with a word when possible, how do we know two words back to back (or side to side) won't produce another word? For example, the words "cook" and "book" placed one after another on a single row in a grid will produce the word "cookbook", a word that may exist in our dictionary and that would cause problems.
+
+We can combat these problems by not trying to autogenerate a crossword from a dictionary for our tests - we can just generate a grid full of random letters and create "words" out of that grid. We can even take it a step further by creating random strings of letters and appending a letter we know is definitely not in the grid (which we can achieve by taking a letter out of the grid). I've implemented this sort of test with an configurable autogeneration method when given a size and two tests that use this method at different sizes. This approach is not quite as good as the above all-inclusive method of autogeneration I discussed above, but is significantly faster (and simpler) to implement.
+
+## Benchmarks
+
+On my laptop with an i5-8250u and Linux it takes about 4 seconds to generate and search a 1000x1000 grid with 10k words being searched, 5k of which are in the grid, 5k are not.
+
+The 10Kx10K grid with a million words takes significantly longer and I haven't been able to run it to completion yet.
 
 ## Bonus Question
 
