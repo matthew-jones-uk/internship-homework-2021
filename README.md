@@ -39,3 +39,29 @@ I thought this method would be fast due to the speed of slicing in Python but it
 #### Benefits
 
 This approach allows for easy expansion if we want to check right-to-left or bottom-to-top. It also has the space complexity of O(n). It requires no preprocessing.
+
+### Second (faster) Approach
+
+This is the approach that is currently used.
+
+#### Overview
+
+Due to the problems with the previous approach I decided to try some preprocessing to reduce the amount of computation and iteration done when the search function is called. Instead of doing the left-to-right and top-to-bottom checks together in one iteration of a for loop I put the grid in row-major and column-major order, but in a 1D flattened form. I use a bytearray here but could probably use a string instead, I wasn't sure of the performance implications of concatenation of strings vs extending bytearrays when building the column-major form.
+
+Row-major order is simply what the grid is already in when we're given, so all I do is convert it to ASCII for the bytearray. This isn't a problem as we're told the characters can only be a-z.
+
+To convert the grid into column-major order as a 1D array we iterate through the number of columns that exist according to the row length and sequentially add each column to the bytearray.
+
+The preprocessing is not done when the `WordSearch` object is created as the row length is not given at this time and could change at any time. Instead we check if the row length has changed since a search has been previously done (or if a search has been done before) and if so then run the preprocessing. This means that on first search this approach may be slower than the previous, however when one object is used for many different word strings (like in the given example), it is much faster.
+
+The word search method implementation is simple due to the preprocessing. We do the above check, then also check if the given word is longer than the row length (this should also apply for column length as we're testing with square matrices). For both order forms we then run the Python function `find()` on the grid to get the index where a match is found. We then get the end index (`found index + length of word - 1`) and check if they are on the same "row". This is done in the same way as the previous method, by doing integer divison on the start and end index, checking if they're the same. The difference here is that we now do the integer division for the top-to-bottom form too as it's now essentially been transformed into a grid of left-to-right words when we put it in this form.  If the integer divison check is false then we run `find()` from the index after the end index. If it is true then we return `True` as the word in valid index positions has been found.
+
+If at any time the `find()` returns `-1` (no match found) then we break the loop and check the next form. If no match is found in either grid form then we return `False`.
+
+#### Issues
+
+To be able to do this check from right-to-left or bottom-to-top we'd have to do more preprocessing, using more space. It currently has the space complexity of O(2n) and so with (extremely) large grids we may run out of memory, but this is somewhat negated by the usage of ascii bytearrays vs a traditional list.
+
+#### Benefits
+
+If the words being searched do not exist in any form in the grid then the built-in `find()` function will return `-1` extremely quickly. The algorithm will therefore be extremely good at dealing with one grid, but an extremely large amount of words being checked. Even if the word exists in an invalid form in the grid then the built-in sort function is still extremely fast and the computation required to check if the position is valid is both less than the previous method and will only be called when there is a match, less than every single position in the grid.
