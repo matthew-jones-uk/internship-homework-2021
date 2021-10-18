@@ -6,6 +6,32 @@ def test_version():
     assert __version__ == "0.0.1"
 
 
+def test_empty():
+    ws = WordSearch("")
+    assert not ws.is_present("")
+    assert not ws.is_present("test")
+    assert not ws.is_present("a")
+
+
+def test_single_letter():
+    ws = WordSearch("a")
+    assert ws.is_present("a")
+    assert not ws.is_present("b")
+
+
+def test_search_4x4():
+    grid = "test" "este" "eder" "nest"
+    words_to_find = ["test", "teen", "nest"]
+    ws = WordSearch(grid)
+    print(ws._grid)
+    ws.ROW_LENGTH = 4
+    for word in words_to_find:
+        assert ws.is_present(word)
+    assert not ws.is_present("alphabet")
+    assert not ws.is_present("dan")
+    assert not ws.is_present("eggs")
+
+
 def test_search_8x8():
     words_to_find = [
         "program",
