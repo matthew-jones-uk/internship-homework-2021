@@ -10,6 +10,8 @@ The problem, as I understand it, is to take a string of virtually unlimited leng
 
 This problem may seem trivial at first but poses significant problems when scaled up to a large size (10000x10000 matrix and 1000000 words).
 
+I've interpreted the problem to mean that the grid will always be square, so the rows and columns are of equal length in the grid. With the current implementation it is not too difficult to change the behaviour if the grid is not square.
+
 ## First Considerations
 
 On first glance it may seem like you should convert the string to a 2D array as this is how we are presented the problem, however on further inspection when converting a string of extremely large size (such as with a 10000x10000 matrix which will give a string of length 100000000) we run into problems with how Python creates lists due to their dynamic size and how this works with the amount of memory it uses.
