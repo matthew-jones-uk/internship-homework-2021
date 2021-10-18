@@ -26,10 +26,15 @@ def test_search_4x4():
     print(ws._grid)
     ws.ROW_LENGTH = 4
     for word in words_to_find:
-        assert ws.is_present(word)
-    assert not ws.is_present("alphabet")
-    assert not ws.is_present("dan")
-    assert not ws.is_present("eggs")
+        answer = ws.is_present(word)
+        assert answer
+        assert isinstance(answer, bool)
+    answer = ws.is_present("alphabet")
+    assert not answer
+    assert isinstance(answer, bool)
+    answer = ws.is_present("dan")
+    assert not answer
+    assert isinstance(answer, bool)
 
 
 def test_search_8x8():
@@ -46,7 +51,9 @@ def test_search_8x8():
 
     ws = WordSearch(grid)
     for word in words_to_find:
-        assert ws.is_present(word)
+        answer = ws.is_present(word)
+        assert answer
+        assert isinstance(answer, bool)
 
 
 def test_search_10x10():
@@ -65,4 +72,6 @@ def test_search_10x10():
     ws = WordSearch(grid)
     ws.ROW_LENGTH = 10
     for word in words_to_find:
-        assert ws.is_present(word)
+        answer = ws.is_present(word)
+        assert answer
+        assert isinstance(answer, bool)
