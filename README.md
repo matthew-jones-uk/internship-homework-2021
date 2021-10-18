@@ -73,7 +73,3 @@ If the words being searched do not exist in any form in the grid then the built-
 Instead of running `find()` multiple times after an invalid match has been made we could instead use a function that returns the indexes of all matches that exist. A regex could be used here but I'm not convinced the slowness of the regex module is worth it. It would probably depend on the number of words being checked that are not in the grid in any form (i.e. when `find()` returns `-1`). We cannot use the `in` keyword as it returns no index for a match - we require this to check if the word is in a valid position and if not, if the word exists in a valid position after this.
 
 ## Testing
-
-## Final Thoughts
-
-I'm not convinced that this implementation is the fastest, but I feel that for it to be easily further optimised it would depend if there was analysis on the data so that it is known, on average, how often a word from the words to be searched exists in the grid.
