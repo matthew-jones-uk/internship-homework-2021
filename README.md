@@ -50,7 +50,7 @@ This is the approach that is currently used.
 
 #### Overview
 
-Due to the problems with the previous approach I decided to try some preprocessing to reduce the amount of computation and iteration done when the search function is called. Instead of doing the left-to-right and top-to-bottom checks together for each letter of the grid in a for loop I instead put the grid in row-major and column-major order, but in a 1D flattened form. I use a `bytearray` here but could probably use a string instead, I wasn't sure of the performance implications of concatenation of strings vs extending bytearrays when building the column-major form.
+Due to the problems with the previous approach I decided to try some preprocessing to reduce the amount of computation and iteration done when the search function is called. Instead of doing the left-to-right and top-to-bottom checks together for each letter of the grid in a for loop I instead put the grid in row-major and column-major order, but in a 1D flattened form. I use a `bytearray` here but could probably use a string instead, I wasn't sure of the performance implications of concatenation of strings vs extending bytearrays when building the column-major form or how much memory a normal string would use vs a bytearray with ascii characters.
 
 Row-major order is simply what the grid is already in when we're given, so all I do is convert it to ASCII for the bytearray. This isn't a problem as we're told the characters can only be a-z.
 
@@ -75,3 +75,14 @@ If the words being searched do not exist in any form in the grid then the built-
 Instead of running `find()` multiple times after an invalid match has been made we could instead use a function that returns the indexes of all matches that exist. A regex could be used here but I'm not convinced the slowness of the regex module is worth it. It would probably depend on the number of words being checked that are not in the grid in any form (i.e. when `find()` returns `-1`). We cannot use the `in` keyword as it returns no index for a match - we require this to check if the word is in a valid position and if not, if the word exists in a valid position after this.
 
 ## Testing
+
+
+## Bonus Question
+
+### How would we take advantage of a multicore system?
+
+With the currently implemented preprocessing approach the most obvious way to take advantage of a multicore system is to parallelise the processing of the top-to-bottom and left-to-right grids as they essentially act as two different grids and we're simply processing them sequentially currently. However, due to this being a CPU limited workload and how Python works with its GIL it would be best to implement this with the `multiprocessing` module as this utilises separate processes, opposed to threads. For large operations this may be better but due to the overhead added by such an approach for smaller searches simply leaving it single-threaded may be optimal.
+
+To implement this with multiprocessing we can modify `is_present()` to utilise two processes for format of grid, instead of the sequential for loop.
+
+This will only take advantage of dual cores due to there only being two processes.
