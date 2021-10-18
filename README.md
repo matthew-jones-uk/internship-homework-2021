@@ -2,7 +2,7 @@
 
 ## Usage
 
-This is packaged with [Poetry](https://github.com/python-poetry/poetry), and so all dependencies can be installed with `poetry install`. Alternatively, a `requirements.txt` is provided. The code is all formatted using [Black](https://github.com/psf/black). The main search can be used with a simple `from pexhomework import WordSearch`.
+This is packaged with [Poetry](https://github.com/python-poetry/poetry), and so all dependencies can be installed with `poetry install`. No `requirements.txt` is given as there are no dependencies for normal usage, only pytest and black for development. The code is all formatted using [Black](https://github.com/psf/black). The main search can be used with a simple `from pexhomework import WordSearch`.
 
 ## The Problem
 
