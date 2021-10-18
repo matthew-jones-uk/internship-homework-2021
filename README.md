@@ -10,9 +10,11 @@ The problem, as I understand it, is to take a string of virtually unlimited leng
 
 This problem may seem trivial at first but poses significant problems when scaled up to a large size (10000x10000 matrix and 1000000 words).
 
-## Considerations
+## First Considerations
 
 On first glance it may seem like you should convert the string to a 2D array as this is how we are presented the problem, however on further inspection when converting a string of extremely large size (such as with a 10000x10000 matrix which will give a string of length 100000000) we run into problems with how Python creates lists due to their dynamic size and how this works with the amount of memory it uses.
+
+Further, the spec document does not outline how the row length should be defined within the `WordSearch` object, only that it should exist. I've taken it to mean that it's an attribute of the `WordSearch` object but it would be trivial to change the implementation to accept it in other ways.
 
 ## My Approaches
 
@@ -69,3 +71,9 @@ If the words being searched do not exist in any form in the grid then the built-
 #### Optimisations
 
 Instead of running `find()` multiple times after an invalid match has been made we could instead use a function that returns the indexes of all matches that exist. A regex could be used here but I'm not convinced the slowness of the regex module is worth it. It would probably depend on the number of words being checked that are not in the grid in any form (i.e. when `find()` returns `-1`). We cannot use the `in` keyword as it returns no index for a match - we require this to check if the word is in a valid position and if not, if the word exists in a valid position after this.
+
+## Testing
+
+## Final Thoughts
+
+I'm not convinced that this implementation is the fastest, but I feel that for it to be further optimised it would depend if there was analysis on the data so that it is known, on average, how often a word from the words to be searched exists in the grid.
